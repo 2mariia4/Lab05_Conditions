@@ -1,152 +1,62 @@
-﻿// // Console.WriteLine("Введите число: ");
-// // int number = int.Parse(Console.ReadLine());
+﻿// 1. Загадываем число
+Random random = new Random();
+int secret = random.Next(1, 101);
 
-// // if (number > 0)
-// // {
-// //     Console.WriteLine("Число положительное.");
-// // }
-// // else if (number < 0)
-// // {
-// //     Console.WriteLine("Число отрицательное.");
-// // }
-// // else
-// // {
-// //     Console.WriteLine("Число равно нулю.");
-// // }
+// 2. Счётчик попыток и флаг победы
+int attempts = 0;
+bool guessed = false;
 
-// // Console.WriteLine("Введите балл (0-100): ");
-// // int score = int.Parse(Console.ReadLine());
+// 3. Заголовок
+Console.WriteLine("Угадай число (1-100)");
+Console.WriteLine("Я загадал число. Попробуй угадать!");
 
-// // if (score >= 91)
-// // {
-// //     Console.WriteLine("Оценка: Отлично (5)");
-// // }
-// // else if (score >= 71)
-// // {
-// //     Console.WriteLine("Оценка: Хорошо (4)");
-// // }
-// // else if (score >= 51)
-// // {
-// //     Console.WriteLine("Оценка: Удовлетворительно (3)");
-// // }
-// // else
-// // {
-// //     Console.WriteLine("Оценка: Неудовлетворительно (2)");
-// // }
+// 4. Основной цикл игры
+string result = attempts <= 7
+    ? $"Отличный результат! Всего {attempts} попыток"
+    : $"Число найдено за {attempts} попыток. Можно лучше!";
 
-// // Console.WriteLine("Введите количество посещений (из 19): ");
-// // int attendance = int.Parse(Console.ReadLine());
+// 5. Безопасное преобразование строки в число
+Console.WriteLine($"� Правильно! Загаданное число: {secret}");
+Console.WriteLine($"{result}");
 
-// // Console.WriteLine("Введите средний балл по практике: ");
-// // double practiceGpa = double.Parse(Console.ReadLine());
-
-// // bool goodAttendance = attendance >= 14;   // посещаемость >= 75%
-// // bool goodGrades = practiceGpa >= 3.0;     // оценка не ниже 3
-
-// // if (goodAttendance && goodGrades)
-// // {
-// //     Console.WriteLine("+ Допуск к экзамену разрешён.");
-// // }
-// // else if (!goodAttendance && goodGrades)
-// // {
-// //     Console.WriteLine("- Недостаточно посещений. Нужно отработать пропуски.");
-// // }
-// // else if (goodAttendance && !goodGrades)
-// // {
-// //     Console.WriteLine("- Низкий балл по практике. Нужно пересдать работы.");
-// // }
-// // else
-// // {
-// //     Console.WriteLine("- Проблемы и с посещаемостью, и с оценками. Срочно к преподавателю.");
-// // }
-
-// Console.Write("Введите ваш возраст: ");
-// int age = int.Parse(Console.ReadLine());
-
-// string status = age >= 18 ? "Совершеннолетний" : "Несовершеннолетний";
-// Console.WriteLine(status);
-
-// Console.Write("Введите температуру: ");
-// double temp = double.Parse(Console.ReadLine());
-
-// string weather = temp > 25 ? "Жарко" : temp > 15 ? "Тепло" : temp > 0 ? "Прохладно" : "Холодно";
-// Console.WriteLine($"На улице: {weather}");
-
-Console.WriteLine("Меню");
-Console.WriteLine("1. Посмотреть расписание");
-Console.WriteLine("2. Посмотреть оценки");
-Console.WriteLine("3. Связаться с преподавателем");
-Console.WriteLine("4. Выйти");
-Console.Write("Выберите пункт (1-4): ");
-
-string choice = Console.ReadLine();
-
-switch (choice)
-{
-    case "1":
-        Console.WriteLine("Расписание: ИСП-244, каб. 102, 08:30");
-        break;
-    case "2":
-        Console.WriteLine("Ваши оценки: ИСРПО — 20, РМП — 35,");
-        break;
-    case "3":
-        Console.WriteLine("Email: denis.leontev92@yandex.ru");
-        break;
-    case "4":
-        Console.WriteLine("До свидания!");
-        break;
-    default:
-        Console.WriteLine($"Ошибка: пункт «{choice}» не существует. Введите число от 1 до 4.");
-        break;
+// 6. Проверка диапазона
+string GetHint(int difference) {
+    switch (difference) {
+        case <= 3:
+            return "� Горячо!";
+        case <= 10:
+            return "� Тепло.";
+        case <= 25:
+            return "� Прохладно.";
+        default:
+            return "❄ Холодно!";
+    }
 }
 
-Console.Write("\nВведите номер дня недели (1-7): ");
-int dayNumber = int.Parse(Console.ReadLine());
-
-switch (dayNumber)
-{
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-        Console.WriteLine("Рабочий день – пора учиться!");
-        break;
-    case 6:
-    case 7:
-        Console.WriteLine("Выходной – заслуженный отдых.");
-        break;
-    default:
-        Console.WriteLine("Такого дня не существует.");
-        break;
-}
-
-Console.Write("\nВведите номер месяца (1-12): ");
-int month = int.Parse(Console.ReadLine());
-
-switch (month)
-{
-    case 12:
-    case 1:
-    case 2:
-        Console.WriteLine("Зима");
-        break;
-    case 3:
-    case 4:
-    case 5:
-        Console.WriteLine("Весна");
-        break;
-    case 6:
-    case 7:
-    case 8:
-        Console.WriteLine("Лето");
-        break;
-    case 9:
-    case 10:
-    case 11:
-        Console.WriteLine("Осень");
-        break;
-    default:
-        Console.WriteLine("Такого месяца не существует.");
-        break;
+// 7. Засчитываем только корректные попытки
+    while (!guessed) {
+    Console.Write($"Попытка {attempts + 1}. Твой вариант: ");
+    string input = Console.ReadLine();
+    if (!int.TryParse(input, out int guess)) {
+        Console.WriteLine("!!! Введи целое число, а не текст!");
+        continue;
+    }
+    if (guess < 1 || guess > 100) {
+        Console.WriteLine("!!! Число должно быть от 1 до 100!");
+        continue;
+    }
+    attempts++;
+    if (guess < secret) {
+        int diff = secret - guess;
+        string hint = GetHint(diff);
+        Console.WriteLine($"↑ Больше! {hint}\n");
+    }
+    else if (guess > secret) {
+        int diff = guess - secret;
+        string hint = GetHint(diff);
+        Console.WriteLine($"↓ Меньше! {hint}\n");
+    }
+    else {
+        guessed = true;
+    }
 }
